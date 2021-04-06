@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.RtaAlarmStandardMapper">
+	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.RtaAlarmStandard">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="region_id" property="regionId" jdbcType="INTEGER" />
+		<result column="category" property="category" jdbcType="VARCHAR" />
+		<result column="elevation" property="elevation" jdbcType="DECIMAL" />
+		<result column="min_scale" property="minScale" jdbcType="DOUBLE" />
+		<result column="max_scale" property="maxScale" jdbcType="DOUBLE" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+    	<result column="remark" property="remark" jdbcType="VARCHAR" />
+    	<result column="creator" property="creator" jdbcType="VARCHAR" />
+	    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+	    <result column="updator" property="updator" jdbcType="VARCHAR" />
+	   	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	   	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+	</resultMap>
+
+	<sql id="columns">
+		`rta_alarm_standard`.`id`,
+		`rta_alarm_standard`.`region_id`,
+		`rta_alarm_standard`.`category`,
+		`rta_alarm_standard`.`elevation`,
+		`rta_alarm_standard`.`min_scale`,
+		`rta_alarm_standard`.`max_scale`,
+		`rta_alarm_standard`.`status`,
+		`rta_alarm_standard`.`tag`,
+		`rta_alarm_standard`.`remark`,
+		`rta_alarm_standard`.`creator`,
+		`rta_alarm_standard`.`creator_id`,
+		`rta_alarm_standard`.`updator`,
+		`rta_alarm_standard`.`create_time`,
+		`rta_alarm_standard`.`update_time`,
+		`rta_alarm_standard`.`deleted`
+	</sql>
+
+	<select id="selectRtaAlarmStandardList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `rta_alarm_standard`
+		<where>
+			<if test="id != null and id != ''">
+				`rta_alarm_standard`.`id` = #{id}
+			</if>
+			<if test="regionId != null and regionId != ''">
+				`rta_alarm_standard`.`region_id` = #{regionId}
+			</if>
+		</where>
+		ORDER BY `rta_alarm_standard`.`region_id` ASC
+	</select>
+
+	<select id="selectRtaAlarmStandard" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `rta_alarm_standard`
+		<where>
+			<if test="id != null and id != ''">
+				`rta_alarm_standard`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertRtaAlarmStandard">
+		insert into `rta_alarm_standard`
+		(
+		`rta_alarm_standard`.`region_id`,
+		`rta_alarm_standard`.`category`,
+		`rta_alarm_standard`.`elevation`,
+		`rta_alarm_standard`.`min_scale`,
+		`rta_alarm_standard`.`max_scale`,
+		`rta_alarm_standard`.`status`,
+		`rta_alarm_standard`.`tag`,
+		`rta_alarm_standard`.`remark`,
+		`rta_alarm_standard`.`creator`,
+		`rta_alarm_standard`.`creator_id`,
+		`rta_alarm_standard`.`create_time`,
+		`rta_alarm_standard`.`deleted`
+		)
+		values
+		(
+		#{regionId},
+		#{category},
+		#{elevation},
+		#{minScale},
+		#{maxScale},
+		#{status},
+		#{tag},
+		#{remark},
+		#{creator},
+		#{creatorId},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updateRtaAlarmStandard">
+		update `rta_alarm_standard`
+		<set>
+			<if test="regionId != null and regionId != ''">
+				`region_id` = #{regionId},
+			</if>
+			<if test="category != null and category != ''">
+				`category` = #{category},
+			</if>
+			<if test="elevation != null and elevation != ''">
+				`elevation` = #{elevation},
+			</if>
+			<if test="minScale != null and minScale != ''">
+				`min_scale` = #{minScale},
+			</if>
+			<if test="maxScale != null and maxScale != ''">
+				`max_scale` = #{maxScale},
+			</if>
+			<if test="status != null">
+				`status` = #{status},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+			<if test="updator != null and updator != ''">
+				`updator` = #{updator},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `rta_alarm_standard`.id = #{id}
+	</update>
+
+	<delete id="deleteRtaAlarmStandard">
+		DELETE FROM
+		`rta_alarm_standard`
+		WHERE `rta_alarm_standard`.id = #{id}
+	</delete>
+
+	<select id="rtaAlarmStandardExistWhenCreate" resultType="java.lang.Boolean">
+		select count(*) > 0 from `rta_alarm_standard` where `rta_alarm_standard`.`region_id` = #{regionId} and `rta_alarm_standard`.`category` = #{category}
+	</select>
+	
+	<select id="rtaAlarmStandardExistWhenUpdate" resultType="java.lang.Boolean">
+		select count(*) > 0 from `rta_alarm_standard` where `rta_alarm_standard`.`ID` != #{id} AND `rta_alarm_standard`.`region_id` = #{regionId} and `rta_alarm_standard`.`category` = #{category}
+	</select>
+	
+</mapper>

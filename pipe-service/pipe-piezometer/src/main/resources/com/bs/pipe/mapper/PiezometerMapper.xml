@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.PiezometerMapper">
+	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.Piezometer">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="region_id" property="regionId" jdbcType="INTEGER" />
+		<result column="snumber" property="snumber" jdbcType="VARCHAR" />
+	    <result column="master_pc" property="masterPc" jdbcType="VARCHAR" />
+	    <result column="category" property="category" jdbcType="VARCHAR" />
+	    <result column="pipe_category" property="pipeCategory" jdbcType="VARCHAR" />
+	    <result column="is_open" property="isOpen" jdbcType="BIT" />
+	    <result column="is_online" property="isOnline" jdbcType="BIT" />
+	    <result column="dimension" property="dimension" jdbcType="VARCHAR" />
+	    <result column="set_address" property="setAddress" jdbcType="VARCHAR" />
+	    <result column="set_departement" property="setDepartement" jdbcType="VARCHAR" />
+	    <result column="set_date_time" property="setDateTime" jdbcType="TIMESTAMP" />
+	    <result column="producter" property="producter" jdbcType="VARCHAR" />
+	    <result column="product_sn" property="productSn" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="DECIMAL" />
+		<result column="latitude" property="latitude" jdbcType="DECIMAL" />
+		<result column="elevation" property="elevation" jdbcType="DECIMAL" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+    	<result column="remark" property="remark" jdbcType="VARCHAR" />
+    	<result column="creator" property="creator" jdbcType="VARCHAR" />
+	    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+	    <result column="updator" property="updator" jdbcType="VARCHAR" />
+	   	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	   	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+	</resultMap>
+
+	<sql id="columns">
+		`piezometer`.`id`,
+		`piezometer`.`name`,
+		`piezometer`.`region_id`,
+		`piezometer`.`snumber`,
+		`piezometer`.`master_pc`,
+		`piezometer`.`category`,
+		`piezometer`.`pipe_category`,
+		`piezometer`.`is_open`,
+		`piezometer`.`is_online`,
+		`piezometer`.`dimension`,
+		`piezometer`.`set_address`,
+		`piezometer`.`set_departement`,
+		`piezometer`.`set_date_time`,
+		`piezometer`.`producter`,
+		`piezometer`.`product_sn`,
+		`piezometer`.`longitude`,
+		`piezometer`.`latitude`,
+		`piezometer`.`elevation`,
+		`piezometer`.`status`,
+		`piezometer`.`tag`,
+		`piezometer`.`remark`,
+		`piezometer`.`creator`,
+		`piezometer`.`creator_id`,
+		`piezometer`.`updator`,
+		`piezometer`.`create_time`,
+		`piezometer`.`update_time`,
+		`piezometer`.`deleted`
+	</sql>
+
+	<select id="selectPiezometerList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `piezometer`
+		<where>
+			<if test="id != null and id != ''">
+				`piezometer`.`id` = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				AND LOCATE(#{name},`piezometer`.`name`)>0
+			</if>
+			<if test="regionId != null and regionId != ''">
+				AND `piezometer`.`region_id` = #{regionId}
+			</if>
+			<if test="longitude != null and longitude != ''">
+				AND `piezometer`.`longitude` = #{longitude}
+			</if>
+			<if test="latitude != null and latitude != ''">
+				AND `piezometer`.`latitude` = #{latitude}
+			</if>
+			<if test="status != null">
+				AND `piezometer`.`status` = #{status}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectPiezometer" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `piezometer`
+		<where>
+			<if test="id != null and id != ''">
+				`piezometer`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectPiezometerBySnumber" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `piezometer`
+		<where>
+			<if test="snumber != null and snumber != ''">
+				`piezometer`.`snumber` = #{snumber}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectPiezometerByName" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `piezometer`
+		<where>
+			<if test="name != null and name != ''">
+				`piezometer`.`name` = #{name}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertPiezometer">
+		insert into `piezometer`
+		(
+		`piezometer`.`name`,
+		`piezometer`.`region_id`,
+		`piezometer`.`snumber`,
+		`piezometer`.`master_pc`,
+		`piezometer`.`category`,
+		`piezometer`.`pipe_category`,
+		`piezometer`.`is_open`,
+		`piezometer`.`is_online`,
+		`piezometer`.`dimension`,
+		`piezometer`.`set_address`,
+		`piezometer`.`set_departement`,
+		`piezometer`.`set_date_time`,
+		`piezometer`.`producter`,
+		`piezometer`.`product_sn`,
+		`piezometer`.`longitude`,
+		`piezometer`.`latitude`,
+		`piezometer`.`elevation`,
+		`piezometer`.`status`,
+		`piezometer`.`tag`,
+		`piezometer`.`remark`,
+		`piezometer`.`creator`,
+		`piezometer`.`creator_id`,
+		`piezometer`.`create_time`,
+		`piezometer`.`deleted`
+		)
+		values
+		(
+		#{name},
+		#{regionId},
+		#{snumber},
+		#{masterPc},
+		#{category},
+		#{pipeCategory},
+		#{isOpen},
+		#{isOnline},
+		#{dimension},
+		#{setAddress},
+		#{setDepartement},
+		#{setDateTime},
+		#{producter},
+		#{productSn},
+		#{longitude},
+		#{latitude},
+		#{elevation},
+		#{status},
+		#{tag},
+		#{remark},
+		#{creator},
+		#{creatorId},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updatePiezometer">
+		update `piezometer`
+		<set>
+			<if test="name != null and name != ''">
+				`name` = #{name},
+			</if>
+			<if test="regionId != null and regionId != ''">
+				`region_id` = #{regionId},
+			</if>
+			<if test="snumber != null and snumber != ''">
+				`snumber` = #{snumber},
+			</if>
+			<if test="masterPc != null and masterPc != ''">
+				`master_pc` = #{masterPc},
+			</if>
+			<if test="category != null and category != ''">
+				`category` = #{category},
+			</if>
+			<if test="pipeCategory != null and pipeCategory != ''">
+				`pipe_category` = #{pipeCategory},
+			</if>
+			<if test="isOpen != null">
+				`is_open` = #{isOpen},
+			</if>
+			<if test="isOnline != null">
+				`is_online` = #{isOnline},
+			</if>
+			<if test="dimension != null and dimension != ''">
+				`dimension` = #{dimension},
+			</if>
+			<if test="setAddress != null and setAddress != ''">
+				`set_address` = #{setAddress},
+			</if>
+			<if test="setDepartement != null and setDepartement != ''">
+				`set_departement` = #{setDepartement},
+			</if>
+			<if test="setDateTime != null and setDateTime != ''">
+				`set_date_time` = #{setDateTime},
+			</if>
+			<if test="producter != null and producter != ''">
+				`producter` = #{producter},
+			</if>
+			<if test="productSn != null and productSn != ''">
+				`product_sn` = #{productSn},
+			</if>
+			<if test="longitude != null and longitude != ''">
+				`longitude` = #{longitude},
+			</if>
+			<if test="latitude != null and latitude != ''">
+				`latitude` = #{latitude},
+			</if>
+			<if test="elevation != null and elevation != ''">
+				`elevation` = #{elevation},
+			</if>
+			<if test="status != null">
+				`status` = #{status},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+			<if test="updator != null and updator != ''">
+				`updator` = #{updator},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `piezometer`.id = #{id}
+	</update>
+
+	<delete id="deletePiezometer">
+		DELETE FROM
+		`piezometer`
+		WHERE `piezometer`.id =
+		#{id}
+	</delete>
+	
+	<!-- 查询压力点信息及历史压力值（ID，名称模糊，区域，经纬度，时间范围） -->
+	<resultMap id="pressureToLogResultMap" type="com.bs.pipe.entity.vo.PiezometerVO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="region_id" property="regionId" jdbcType="INTEGER" />
+		<result column="snumber" property="snumber" jdbcType="VARCHAR" />
+	    <result column="master_pc" property="masterPc" jdbcType="VARCHAR" />
+	    <result column="category" property="category" jdbcType="VARCHAR" />
+	    <result column="pipe_category" property="pipeCategory" jdbcType="VARCHAR" />
+	    <result column="is_open" property="isOpen" jdbcType="BIT" />
+	    <result column="is_online" property="isOnline" jdbcType="BIT" />
+	    <result column="dimension" property="dimension" jdbcType="VARCHAR" />
+	    <result column="set_address" property="setAddress" jdbcType="VARCHAR" />
+	    <result column="set_departement" property="setDepartement" jdbcType="VARCHAR" />
+	    <result column="set_date_time" property="setDateTime" jdbcType="TIMESTAMP" />
+	    <result column="producter" property="producter" jdbcType="VARCHAR" />
+	    <result column="product_sn" property="productSn" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="DECIMAL" />
+		<result column="latitude" property="latitude" jdbcType="DECIMAL" />
+		<result column="elevation" property="elevation" jdbcType="DECIMAL" />
+    	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+    	<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<collection property="logPressure" ofType="com.bs.pipe.entity.po.LogPressure">
+			<id column="log_id" property="id" jdbcType="INTEGER" />
+			<result column="pressure_id" property="pressureId" jdbcType="INTEGER" />
+	    	<result column="read_time" property="readTime" jdbcType="TIMESTAMP" />
+			<result column="read_number" property="readNumber" jdbcType="DOUBLE" />
+			<result column="log_status" property="status" jdbcType="VARCHAR" />
+			<result column="log_tag" property="tag" jdbcType="VARCHAR" />
+	    	<result column="log_remark" property="remark" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	
+	<select id="selectPressureLogSearch" resultMap="pressureToLogResultMap">
+		SELECT 
+			`piezometer`.`id`,
+			`piezometer`.`name`,
+			`piezometer`.`region_id`,
+			`piezometer`.`snumber`,
+			`piezometer`.`master_pc`,
+			`piezometer`.`category`,
+			`piezometer`.`pipe_category`,
+			`piezometer`.`is_open`,
+			`piezometer`.`is_online`,
+			`piezometer`.`dimension`,
+			`piezometer`.`set_address`,
+			`piezometer`.`set_departement`,
+			`piezometer`.`set_date_time`,
+			`piezometer`.`producter`,
+			`piezometer`.`product_sn`,
+			`piezometer`.`longitude`,
+			`piezometer`.`latitude`,
+			`piezometer`.`elevation`,
+			`piezometer`.`create_time`,
+			`piezometer`.`status`,
+			`piezometer`.`tag`,
+			`piezometer`.`remark`
+			`log_pressure`.`id` log_id,
+			`log_pressure`.`pressure_id`,
+			`log_pressure`.`read_time`,
+			`log_pressure`.`read_number`,
+			`log_pressure`.`status` log_status,
+			`log_pressure`.`tag` log_tag,
+			`log_pressure`.`remark` log_remark
+		FROM
+		  `piezometer` 
+		  INNER JOIN `log_pressure` 
+		    ON `piezometer`.`id` = `log_pressure`.`pressure_id` 
+		 <where>
+		 	<if test="piezometer.id != null and piezometer.id != ''">
+		 		`piezometer`.`id` = #{piezometer.id}
+		 	</if>
+		 	<if test="piezometer.name != null and piezometer.name != ''">
+				AND LOCATE(#{piezometer.name},`piezometer`.`name`)>0
+			</if>
+			<if test="piezometer.regionId != null and piezometer.regionId != ''">
+				AND `piezometer`.`region_id` = #{piezometer.regionId}
+			</if>
+			<if test="piezometer.longitude != null and piezometer.longitude != ''">
+				AND `piezometer`.`longitude` = #{piezometer.longitude}
+			</if>
+			<if test="piezometer.latitude != null and piezometer.latitude != ''">
+				AND `piezometer`.`latitude` = #{piezometer.latitude}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				AND `log_pressure`.`read_time` &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:00')
+	  		</if>
+	  		<if test="endTime != null and endTime != ''">
+	  			AND `log_pressure`.`read_time` &lt; DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:00')
+	  		</if>
+		 </where>
+		ORDER BY `piezometer`.`id` ASC, `log_pressure`.`read_time` ASC  		
+	</select>
+	
+	<select id="piezometerExistWhenCreate" resultType="java.lang.Boolean">
+		SELECT COUNT(*) > 0 FROM `piezometer` WHERE `piezometer`.`snumber` = #{snumber}
+	</select>
+	
+	<select id="piezometerExistWhenUpdate" resultType="java.lang.Boolean">
+		SELECT COUNT(*) > 0 FROM `piezometer` WHERE `piezometer`.`snumber` = #{snumber} AND `piezometer`.`id` != #{id}
+	</select>
+
+</mapper>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.RtaLegendStandardMapper">
+	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.RtaLegendStandard">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+	    <result column="Category" property="category" jdbcType="VARCHAR" />
+	    <result column="range1" property="range1" jdbcType="DOUBLE" />
+	    <result column="range2" property="range2" jdbcType="DOUBLE" />
+	    <result column="range3" property="range3" jdbcType="DOUBLE" />
+	    <result column="range4" property="range4" jdbcType="DOUBLE" />
+	    <result column="range5" property="range5" jdbcType="DOUBLE" />
+	    <result column="range6" property="range6" jdbcType="DOUBLE" />
+	    <result column="range7" property="range7" jdbcType="DOUBLE" />
+	    <result column="range8" property="range8" jdbcType="DOUBLE" />
+	    <result column="range9" property="range9" jdbcType="DOUBLE" />
+	    <result column="range10" property="range10" jdbcType="DOUBLE" />
+	    <result column="range11" property="range11" jdbcType="DOUBLE" />
+	    <result column="range12" property="range12" jdbcType="DOUBLE" />
+	    <result column="range13" property="range13" jdbcType="DOUBLE" />
+	    <result column="range14" property="range14" jdbcType="DOUBLE" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+    	<result column="remark" property="remark" jdbcType="VARCHAR" />
+    	<result column="creator" property="creator" jdbcType="VARCHAR" />
+	    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+	    <result column="updator" property="updator" jdbcType="VARCHAR" />
+	   	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	   	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+	</resultMap>
+
+	<sql id="columns">
+		`rta_legend_standard`.id,
+		`rta_legend_standard`.`category`,
+		`rta_legend_standard`.`range1`,
+		`rta_legend_standard`.`range2`,
+		`rta_legend_standard`.`range3`,
+		`rta_legend_standard`.`range4`,
+		`rta_legend_standard`.`range5`,
+		`rta_legend_standard`.`range6`,
+		`rta_legend_standard`.`range7`,
+		`rta_legend_standard`.`range8`,
+		`rta_legend_standard`.`range9`,
+		`rta_legend_standard`.`range10`,
+		`rta_legend_standard`.`range11`,
+		`rta_legend_standard`.`range12`,
+		`rta_legend_standard`.`range13`,
+		`rta_legend_standard`.`range14`,
+		`rta_legend_standard`.`status`,
+		`rta_legend_standard`.`tag`,
+		`rta_legend_standard`.`remark`,
+		`rta_legend_standard`.`creator`,
+		`rta_legend_standard`.`creator_id`,
+		`rta_legend_standard`.`updator`,
+		`rta_legend_standard`.`create_time`,
+		`rta_legend_standard`.`update_time`,
+		`rta_legend_standard`.`deleted`
+	</sql>
+
+	<select id="selectRtaLegendStandardList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `rta_legend_standard`
+		<where>
+			<if test="id != null and id != ''">
+				`rta_legend_standard`.`id` = #{id}
+			</if>
+			<if test="category != null and category != ''">
+				`rta_legend_standard`.`category` = #{category}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectRtaLegendStandard" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `rta_legend_standard`
+		<where>
+			<if test="id != null and id != ''">
+				`rta_legend_standard`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertRtaLegendStandard">
+		insert into `rta_legend_standard`
+		(
+		`rta_legend_standard`.`category`,
+		`rta_legend_standard`.`range1`,
+		`rta_legend_standard`.`range2`,
+		`rta_legend_standard`.`range3`,
+		`rta_legend_standard`.`range4`,
+		`rta_legend_standard`.`range5`,
+		`rta_legend_standard`.`range6`,
+		`rta_legend_standard`.`range7`,
+		`rta_legend_standard`.`range8`,
+		`rta_legend_standard`.`range9`,
+		`rta_legend_standard`.`range10`,
+		`rta_legend_standard`.`range11`,
+		`rta_legend_standard`.`range12`,
+		`rta_legend_standard`.`range13`,
+		`rta_legend_standard`.`range14`,
+		`rta_legend_standard`.`status`,
+		`rta_legend_standard`.`tag`,
+		`rta_legend_standard`.`remark`,
+		`rta_legend_standard`.`creator`,
+		`rta_legend_standard`.`creator_id`,
+		`rta_legend_standard`.`create_time`,
+		`rta_legend_standard`.`deleted`
+		)
+		values
+		(
+		#{category},
+		#{range1},
+		#{range2},
+		#{range3},
+		#{range4},
+		#{range5},
+		#{range6},
+		#{range7},
+		#{range8},
+		#{range9},
+		#{range10},
+		#{range11},
+		#{range12},
+		#{range13},
+		#{range14},
+		#{status},
+		#{tag},
+		#{remark},
+		#{creator},
+		#{creatorId},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updateRtaLegendStandard">
+		update `rta_legend_standard`
+		<set>
+			<if test="category != null and category != ''">
+				`Category` = #{category},
+			</if>
+			<if test="range1 != null and range1 != ''">
+				`Range1` = #{range1},
+			</if>
+			<if test="range2 != null and range2 != ''">
+				`Range2` = #{range2},
+			</if>
+			<if test="range3 != null and range3 != ''">
+				`Range3` = #{range3},
+			</if>
+			<if test="range4 != null and range4 != ''">
+				`Range4` = #{range4},
+			</if>
+			<if test="range5 != null and range5 != ''">
+				`Range5` = #{range5},
+			</if>
+			<if test="range6 != null and range6 != ''">
+				`Range6` = #{range6},
+			</if>
+			<if test="range7 != null and range7 != ''">
+				`Range7` = #{range7},
+			</if>
+			<if test="range8 != null and range8 != ''">
+				`Range8` = #{range8},
+			</if>
+			<if test="range9 != null and range9 != ''">
+				`Range9` = #{range9},
+			</if>
+			<if test="range10 != null and range10 != ''">
+				`Range10` = #{range10},
+			</if>
+			<if test="range11 != null and range11 != ''">
+				`Range11` = #{range11},
+			</if>
+			<if test="range12 != null and range12 != ''">
+				`Range12` = #{range12},
+			</if>
+			<if test="range13 != null and range13 != ''">
+				`Range13` = #{range13},
+			</if>
+			<if test="range14 != null and range14 != ''">
+				`Range14` = #{range14},
+			</if>
+			<if test="status != null">
+				`status` = #{status},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+			<if test="updator != null and updator != ''">
+				`updator` = #{updator},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `rta_legend_standard`.id = #{id}
+	</update>
+
+	<delete id="deleteRtaLegendStandard">
+		DELETE FROM
+		`rta_legend_standard`
+		WHERE `rta_legend_standard`.id = #{id}
+	</delete>
+	
+	<select id="rtaLegendStandardExistWhenCreate" resultType="java.lang.Boolean">
+		select count(*) > 0 from `rta_legend_standard` where `rta_legend_standard`.`category` = #{category}
+	</select>
+	
+	<select id="rtaLegendStandardExistWhenUpdate" resultType="java.lang.Boolean">
+		select count(*) > 0 from `rta_legend_standard` where `rta_legend_standard`.`ID` != #{id} AND `rta_legend_standard`.`category` = #{category}
+	</select>
+	
+
+</mapper>

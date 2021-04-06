@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="pipe-web:war">
+    <output-path>$PROJECT_DIR$/pipe-web/target</output-path>
+    <root id="archive" name="pipe.war">
+      <element id="artifact" artifact-name="pipe-web:war exploded" />
+    </root>
+  </artifact>
+</component>

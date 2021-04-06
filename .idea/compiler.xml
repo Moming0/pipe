@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="pipe-alarm" />
+        <module name="pipe-building" />
+        <module name="pipe-common" />
+        <module name="pipe-elevationNode" />
+        <module name="pipe-gridNode" />
+        <module name="pipe-logPressure" />
+        <module name="pipe-piezometer" />
+        <module name="pipe-pressureData" />
+        <module name="pipe-rta" />
+        <module name="pipe-waterregion" />
+        <module name="pipe-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="pipe" target="1.8" />
+      <module name="pipe-alarm" target="1.8" />
+      <module name="pipe-building" target="1.8" />
+      <module name="pipe-common" target="1.8" />
+      <module name="pipe-elevationNode" target="1.8" />
+      <module name="pipe-gridNode" target="1.8" />
+      <module name="pipe-logPressure" target="1.8" />
+      <module name="pipe-piezometer" target="1.8" />
+      <module name="pipe-pressureData" target="1.8" />
+      <module name="pipe-rta" target="1.8" />
+      <module name="pipe-service" target="1.8" />
+      <module name="pipe-waterregion" target="1.8" />
+      <module name="pipe-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

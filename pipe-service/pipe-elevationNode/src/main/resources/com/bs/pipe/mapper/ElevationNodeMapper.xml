@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.ElevationNodeMapper">
+	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.ElevationNode">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="region_id" property="regionId" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="DECIMAL" />
+		<result column="latitude" property="latitude" jdbcType="DECIMAL" />
+		<result column="elevation" property="elevation" jdbcType="DECIMAL" />
+    	<result column="set_time" property="setTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+    	<result column="remark" property="remark" jdbcType="VARCHAR" />
+    	<result column="creator" property="creator" jdbcType="VARCHAR" />
+	    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+	    <result column="updator" property="updator" jdbcType="VARCHAR" />
+	   	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	   	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+	</resultMap>
+
+	<sql id="columns">
+		`elevation_node`.`id`,
+		`elevation_node`.`name`,
+		`elevation_node`.`region_id`,
+		`elevation_node`.`longitude`,
+		`elevation_node`.`latitude`,
+		`elevation_node`.`elevation`,
+		`elevation_node`.`set_time`,
+		`elevation_node`.`status`,
+		`elevation_node`.`tag`,
+		`elevation_node`.`remark`,
+		`elevation_node`.`creator`,
+		`elevation_node`.`creator_id`,
+		`elevation_node`.`updator`,
+		`elevation_node`.`create_time`,
+		`elevation_node`.`update_time`,
+		`elevation_node`.`deleted`
+	</sql>
+
+	<select id="selectElevationNodeList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `elevation_node`
+		<where>
+			<if test="id != null and id != ''">
+				`elevation_node`.`id` = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				AND LOCATE(#{name},`elevation_node`.`name`)>0
+			</if>
+			<if test="regionId != null and regionId != ''">
+				AND `elevation_node`.`region_id` = #{regionId}
+			</if>
+			<if test="longitude != null and longitude != ''">
+				AND `elevation_node`.`longitude` = #{longitude}
+			</if>
+			<if test="latitude != null and latitude != ''">
+				AND `elevation_node`.`latitude` = #{latitude}
+			</if>
+			<if test="status != null">
+				AND `elevation_node`.`status` = #{status}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectElevationNode" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `elevation_node`
+		<where>
+			<if test="id != null and id != ''">
+				`elevation_node`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertElevationNode">
+		insert into `elevation_node`
+		(
+		`elevation_node`.`name`,
+		`elevation_node`.`region_id`,
+		`elevation_node`.`longitude`,
+		`elevation_node`.`latitude`,
+		`elevation_node`.`elevation`,
+		`elevation_node`.`set_time`,
+		`elevation_node`.`status`,
+		`elevation_node`.`tag`,
+		`elevation_node`.`remark`,
+		`elevation_node`.`creator`,
+		`elevation_node`.`creator_id`,
+		`elevation_node`.`create_time`,
+		`elevation_node`.`deleted`
+		)
+		values
+		(
+		#{name},
+		#{regionId},
+		#{longitude},
+		#{latitude},
+		#{elevation},
+		#{setTime},
+		#{status},
+		#{tag},
+		#{remark},
+		#{creator},
+		#{creatorId},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updateElevationNode">
+		update `elevation_node`
+		<set>
+			<if test="name != null and name != ''">
+				`name` = #{name},
+			</if>
+			<if test="regionId != null and regionId != ''">
+				`region_id` = #{regionId},
+			</if>
+			<if test="longitude != null and longitude != ''">
+				`longitude` = #{longitude},
+			</if>
+			<if test="latitude != null and latitude != ''">
+				`latitude` = #{latitude},
+			</if>
+			<if test="elevation != null and elevation != ''">
+				`elevation` = #{elevation},
+			</if>
+			<if test="setTime != null and setTime != ''">
+				`set_time` = #{setTime},
+			</if>
+			<if test="status != null">
+				`status` = #{status},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+			<if test="updator != null and updator != ''">
+				`updator` = #{updator},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `elevation_node`.id = #{id}
+	</update>
+
+	<delete id="deleteElevationNode">
+		DELETE FROM
+		`elevation_node`
+		WHERE `elevation_node`.id = #{id}
+	</delete>
+
+	<select id="elevationNodeExistWhenCreate" resultType="java.lang.Boolean">
+		select count(*) > 0 from `elevation_node` where `elevation_node`.`longitude` = #{longitude} AND `elevation_node`.`latitude` = #{latitude}
+	</select>
+	
+	<select id="elevationNodeExistWhenUpdate" resultType="java.lang.Boolean">
+		select count(*) > 0 from `elevation_node` where `elevation_node`.`id` != #{id} AND `elevation_node`.`longitude` = #{longitude} AND `elevation_node`.`latitude` = #{latitude}
+	</select>
+	
+</mapper>

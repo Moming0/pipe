@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.BuildingMapper" >
+  <resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.Building" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="snumber" property="snumber" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="region_id" property="regionId" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="storeys" property="storeys" jdbcType="INTEGER" />
+    <result column="population" property="population" jdbcType="INTEGER" />
+    <result column="building_height" property="buildingHeight" jdbcType="DOUBLE" />
+    <result column="building_area" property="buildingArea" jdbcType="DOUBLE" />
+    <result column="building_function" property="buildingFunction" jdbcType="VARCHAR" />
+    <result column="covers_area" property="coversArea" jdbcType="DOUBLE" />
+    <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+	<result column="latitude" property="latitude" jdbcType="DECIMAL" />
+	<result column="elevation" property="elevation" jdbcType="DECIMAL" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
+   	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	<result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+ 
+	<sql id="columns">
+		`building`.`id`,
+		`building`.`name`,
+		`building`.`snumber`,
+		`building`.`category`,
+		`building`.`region_id`,
+		`building`.`address`,
+		`building`.`storeys`,
+		`building`.`population`,
+		`building`.`building_height`,
+		`building`.`building_area`,
+		`building`.`building_function`,
+		`building`.`covers_area`,
+		`building`.`longitude`,
+		`building`.`latitude`,
+		`building`.`elevation`,
+		`building`.`tag`,
+		`building`.`remark`,
+		`building`.`creator`,
+		`building`.`creator_id`,
+		`building`.`updator`,
+		`building`.`create_time`,
+		`building`.`update_time`,
+		`building`.`deleted`
+	</sql>
+	
+	 <select id="selectBuildingList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `building`
+		<where>
+			<if test="id != null and id != ''">
+				`building`.`id` = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				AND LOCATE(#{name},`building`.`name`)>0
+			</if>
+			<if test="regionId != null and regionId != ''">
+				AND `building`.`region_id` = #{regionId}
+			</if>
+			<if test="longitude != null and longitude != ''">
+				AND `building`.`longitude` = #{longitude}
+			</if>
+			<if test="latitude != null and latitude != ''">
+				AND `building`.`latitude` = #{latitude}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectBuilding" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `building`
+		<where>
+			<if test="id != null and id != ''">
+				`building`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertBuilding">
+		insert into `building`
+		(
+		`building`.`name`,
+		`building`.`snumber`,
+		`building`.`category`,
+		`building`.`region_id`,
+		`building`.`address`,
+		`building`.`storeys`,
+		`building`.`population`,
+		`building`.`building_height`,
+		`building`.`building_area`,
+		`building`.`building_function`,
+		`building`.`covers_area`,
+		`building`.`longitude`,
+		`building`.`latitude`,
+		`building`.`elevation`,
+		`building`.`tag`,
+		`building`.`remark`,
+		`building`.`creator`,
+		`building`.`creator_id`,
+		`building`.`create_time`,
+		`building`.`deleted`
+		)
+		values
+		(
+		#{name},
+		#{snumber},
+		#{category},
+		#{regionId},
+		#{address},
+		#{storeys},
+		#{population},
+		#{buildingHeight},
+		#{buildingArea},
+		#{buildingFunction},
+		#{coversArea},
+		#{longitude},
+		#{latitude},
+		#{elevation},
+		#{tag},
+		#{remark},
+		#{creator},
+		#{creatorId},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updateBuilding">
+		update `building`
+		<set>
+			<if test="name != null and name != ''">
+				`name` = #{name},
+			</if>
+			<if test="snumber != null and snumber != ''">
+				`snumber` = #{snumber},
+			</if>
+			<if test="category != null and category != ''">
+				`category` = #{category},
+			</if>
+			<if test="regionId != null and regionId != ''">
+				`region_id` = #{regionId},
+			</if>
+			<if test="address != null and address != ''">
+				`address` = #{address},
+			</if>
+			<if test="storeys != null and storeys != ''">
+				`storeys` = #{storeys},
+			</if>
+			<if test="population != null and population != ''">
+				`population` = #{population},
+			</if>
+			<if test="buildingHeight != null and buildingHeight != ''">
+				`building_height` = #{buildingHeight},
+			</if>
+			<if test="buildingArea != null and buildingArea != ''">
+				`building_area` = #{buildingArea},
+			</if>
+			<if test="buildingFunction != null and buildingFunction != ''">
+				`building_function` = #{buildingFunction},
+			</if>
+			<if test="coversArea != null and coversArea != ''">
+				`covers_area` = #{coversArea},
+			</if>
+			<if test="longitude != null and longitude != ''">
+				`longitude` = #{longitude},
+			</if>
+			<if test="latitude != null and latitude != ''">
+				`latitude` = #{latitude},
+			</if>
+			<if test="elevation != null and elevation != ''">
+				`elevation` = #{elevation},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+			<if test="updator != null and updator != ''">
+				`updator` = #{updator},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `building`.id = #{id}
+	</update>
+
+	<delete id="deleteBuilding">
+		DELETE FROM
+		`building`
+		WHERE `building`.id = #{id}
+	</delete>
+  
+</mapper>

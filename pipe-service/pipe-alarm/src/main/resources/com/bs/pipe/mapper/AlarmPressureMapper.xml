@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.AlarmPressureMapper">
+	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.AlarmPressure">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="category" property="category" jdbcType="VARCHAR" />
+	    <result column="alarm_time" property="alarmTime" jdbcType="TIMESTAMP" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="DECIMAL" />
+		<result column="latitude" property="latitude" jdbcType="DECIMAL" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+	    <result column="caller" property="caller" jdbcType="VARCHAR" />
+	    <result column="alarm_data" property="alarmData" jdbcType="VARCHAR" />
+	    <result column="report_content" property="reportContent" jdbcType="VARCHAR" />
+	    <result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+    	<result column="remark" property="remark" jdbcType="VARCHAR" />
+    	<result column="creator" property="creator" jdbcType="VARCHAR" />
+	    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+	    <result column="updator" property="updator" jdbcType="VARCHAR" />
+	   	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	   	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+	</resultMap>
+
+	<sql id="columns">
+		`alarm_pressure`.`id`,
+		`alarm_pressure`.`category`,
+		`alarm_pressure`.`alarm_time`,
+		`alarm_pressure`.`address`,
+		`alarm_pressure`.`longitude`,
+		`alarm_pressure`.`latitude`,
+		`alarm_pressure`.`source`,
+		`alarm_pressure`.`caller`,
+		`alarm_pressure`.`alarm_data`,
+		`alarm_pressure`.`report_content`,
+		`alarm_pressure`.`image`,
+		`alarm_pressure`.`status`,
+		`alarm_pressure`.`tag`,
+		`alarm_pressure`.`remark`,
+		`alarm_pressure`.`creator`,
+		`alarm_pressure`.`creator_id`,
+		`alarm_pressure`.`updator`,
+		`alarm_pressure`.`create_time`,
+		`alarm_pressure`.`update_time`,
+		`alarm_pressure`.`deleted`
+	</sql>
+
+	<select id="selectAlarmPressureList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `alarm_pressure`
+		<where>
+			<if test="alarmPressure.id != null and alarmPressure.id != ''">
+				`alarm_pressure`.`id` = #{alarmPressure.id}
+			</if>
+	  		<if test="alarmPressure.category != null and alarmPressure.category != ''">
+	  			AND `alarm_pressure`.`category` = #{alarmPressure.category}
+	  		</if>
+	  		<if test="startTime != null and startTime != ''">
+  				AND `alarm_pressure`.`alarm_time` &gt;= #{startTime}
+	  		</if>
+	  		<if test="endTime != null and endTime != ''">
+	  			AND `alarm_pressure`.`alarm_time` &lt;= #{endTime}
+	  		</if>
+		</where>
+		ORDER BY `alarm_pressure`.`alarm_time` DESC, SUBSTRING(`alarm_pressure`.`id`,13,15) ASC
+	</select>
+
+	<select id="selectAlarmPressure" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `alarm_pressure`
+		<where>
+			<if test="id != null and id != ''">
+				`alarm_pressure`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertAlarmPressure">
+		insert into `alarm_pressure`
+		(
+		`alarm_pressure`.`id`,
+		`alarm_pressure`.`category`,
+		`alarm_pressure`.`alarm_time`,
+		`alarm_pressure`.`address`,
+		`alarm_pressure`.`longitude`,
+		`alarm_pressure`.`latitude`,
+		`alarm_pressure`.`source`,
+		`alarm_pressure`.`caller`,
+		`alarm_pressure`.`alarm_data`,
+		`alarm_pressure`.`report_content`,
+		`alarm_pressure`.`image`,
+		`alarm_pressure`.`status`,
+		`alarm_pressure`.`tag`,
+		`alarm_pressure`.`remark`,
+		`alarm_pressure`.`creator`,
+		`alarm_pressure`.`creator_id`,
+		`alarm_pressure`.`create_time`,
+		`alarm_pressure`.`deleted`
+		)
+		values
+		(
+		#{id},
+		#{category},
+		#{alarmTime},
+		#{address},
+		#{longitude},
+		#{latitude},
+		#{source},
+		#{caller},
+		#{alarmData},
+		#{reportContent},
+		#{image},
+		#{status},
+		#{tag},
+		#{remark},
+		#{creator},
+		#{creatorId},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updateAlarmPressure">
+		update `alarm_pressure`
+		<set>
+			<if test="category != null and category != ''">
+				`category` = #{category},
+			</if>
+			<if test="alarmTime != null and alarmTime != ''">
+				`alarm_time` = #{alarmTime},
+			</if>
+			<if test="address != null and address != ''">
+				`address` = #{address},
+			</if>
+			<if test="longitude != null and longitude != ''">
+				`longitude` = #{longitude},
+			</if>
+			<if test="latitude != null and latitude != ''">
+				`latitude` = #{latitude},
+			</if>
+			<if test="source != null and source != ''">
+				`source` = #{source},
+			</if>
+			<if test="caller != null and caller != ''">
+				`caller` = #{caller},
+			</if>
+			<if test="alarmData != null and alarmData != ''">
+				`alarm_data` = #{alarmData},
+			</if>
+			<if test="reportContent != null and reportContent != ''">
+				`report_content` = #{reportContent},
+			</if>
+			<if test="image != null and image != ''">
+				`image` = #{image},
+			</if>
+			<if test="status != null">
+				`status` = #{status},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+			<if test="updator != null and updator != ''">
+				`updator` = #{updator},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `alarm_pressure`.id = #{id}
+	</update>
+
+	<delete id="deleteAlarmPressure">
+		DELETE FROM
+		`alarm_pressure`
+		WHERE `alarm_pressure`.id =
+		#{id}
+	</delete>
+	
+	<select id="getAlarmCodeByNum" resultType="java.lang.Integer">
+		SELECT MAX(SUBSTRING(`alarm_pressure`.`id`,13,15)) FROM `alarm_pressure` WHERE DATE_FORMAT(`alarm_pressure`.`alarm_time`, '%Y-%m-%d') = DATE_FORMAT(#{time},'%Y-%m-%d')
+	</select>
+
+</mapper>

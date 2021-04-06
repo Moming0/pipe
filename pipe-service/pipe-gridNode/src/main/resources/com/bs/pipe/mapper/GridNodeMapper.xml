@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.GridNodeMapper">
+	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.GridNode">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="region_id" property="regionId" jdbcType="INTEGER" />
+		<result column="longitude" property="longitude" jdbcType="DECIMAL" />
+		<result column="latitude" property="latitude" jdbcType="DECIMAL" />
+		<result column="elevation" property="elevation" jdbcType="DECIMAL" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+    	<result column="remark" property="remark" jdbcType="VARCHAR" />
+    	<result column="creator" property="creator" jdbcType="VARCHAR" />
+	    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+	    <result column="updator" property="updator" jdbcType="VARCHAR" />
+	   	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	   	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+	</resultMap>
+
+	<sql id="columns">
+		`grid_node`.`id`,
+		`grid_node`.`region_id`,
+		`grid_node`.`longitude`,
+		`grid_node`.`latitude`,
+		`grid_node`.`elevation`,
+		`grid_node`.`status`,
+		`grid_node`.`tag`,
+		`grid_node`.`remark`,
+		`grid_node`.`creator`,
+		`grid_node`.`creator_id`,
+		`grid_node`.`updator`,
+		`grid_node`.`create_time`,
+		`grid_node`.`update_time`,
+		`grid_node`.`deleted`
+	</sql>
+
+	<select id="selectGridNodeList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `grid_node`
+		<where>
+			<if test="id != null and id != ''">
+				`grid_node`.`id` = #{id}
+			</if>
+			<if test="regionId != null and regionId != ''">
+				AND `grid_node`.`region_id` = #{regionId}
+			</if>
+			<if test="longitude != null and longitude != ''">
+				AND `grid_node`.`longitude` = #{longitude}
+			</if>
+			<if test="latitude != null and latitude != ''">
+				AND `grid_node`.`latitude` = #{latitude}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectGridNode" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `grid_node`
+		<where>
+			<if test="id != null and id != ''">
+				`grid_node`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertGridNode">
+		insert into `grid_node`
+		(
+		`grid_node`.`region_id`,
+		`grid_node`.`longitude`,
+		`grid_node`.`latitude`,
+		`grid_node`.`elevation`,
+		`grid_node`.`status`,
+		`grid_node`.`tag`,
+		`grid_node`.`remark`,
+		`grid_node`.`creator`,
+		`grid_node`.`creator_id`,
+		`grid_node`.`create_time`,
+		`grid_node`.`deleted`
+		)
+		values
+		(
+		#{regionId},
+		#{longitude},
+		#{latitude},
+		#{elevation},
+		#{status},
+		#{tag},
+		#{remark},
+		#{creator},
+		#{creatorId},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updateGridNode">
+		update `grid_node`
+		<set>
+			<if test="regionId != null and regionId != ''">
+				`region_id` = #{regionId},
+			</if>
+			<if test="longitude != null and longitude != ''">
+				`longitude` = #{longitude},
+			</if>
+			<if test="latitude != null and latitude != ''">
+				`latitude` = #{latitude},
+			</if>
+			<if test="elevation != null and elevation != ''">
+				`elevation` = #{elevation},
+			</if>
+			<if test="status != null">
+				`status` = #{status},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+			<if test="updator != null and updator != ''">
+				`updator` = #{updator},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `grid_node`.id = #{id}
+	</update>
+
+	<delete id="deleteGridNode">
+		DELETE FROM
+		`grid_node`
+		WHERE `grid_node`.id = #{id}
+	</delete>
+
+	<select id="gridNodeExistWhenCreate" resultType="java.lang.Boolean">
+		select count(*) > 0 from `grid_node` where `grid_node`.`longitude` = #{longitude} AND `grid_node`.`latitude` = #{latitude}
+	</select>
+	
+	<select id="gridNodeExistWhenUpdate" resultType="java.lang.Boolean">
+		select count(*) > 0 from `grid_node` where `grid_node`.`id` != #{id} AND `grid_node`.`longitude` = #{longitude} AND `grid_node`.`latitude` = #{latitude}
+	</select>
+	
+	<!-- 批量插入数据list -->
+	<insert id="insertGridNodeList" parameterType="java.util.List">
+		insert IGNORE into `grid_node`
+		(
+		`grid_node`.`region_id`,
+		`grid_node`.`longitude`,
+		`grid_node`.`latitude`,
+		`grid_node`.`elevation`,
+		`grid_node`.`status`,
+		`grid_node`.`tag`,
+		`grid_node`.`remark`,
+		`grid_node`.`creator`,
+		`grid_node`.`creator_id`,
+		`grid_node`.`create_time`,
+		`grid_node`.`deleted`
+		)
+		values
+		
+		<foreach collection="list" item="gridNodeList" index="index" separator=",">
+		(
+		#{gridNodeList.regionId},
+		#{gridNodeList.longitude},
+		#{gridNodeList.latitude},
+		#{gridNodeList.elevation},
+		#{gridNodeList.status},
+		#{gridNodeList.tag},
+		#{gridNodeList.remark},
+		#{gridNodeList.creator},
+		#{gridNodeList.creatorId},
+		NOW(),
+		#{gridNodeList.deleted}
+  		)
+		</foreach>
+	</insert >
+</mapper>

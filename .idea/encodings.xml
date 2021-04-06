@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-alarm" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-building" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-elevationNode" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-gridNode" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-logPressure" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-piezometer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-pressureData" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-rta" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-service/pipe-waterregion" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pipe-web" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

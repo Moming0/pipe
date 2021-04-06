@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/pipe.iml" filepath="$PROJECT_DIR$/pipe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-alarm/pipe-alarm.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-alarm/pipe-alarm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-building/pipe-building.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-building/pipe-building.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-common/pipe-common.iml" filepath="$PROJECT_DIR$/pipe-common/pipe-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-elevationNode/pipe-elevationNode.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-elevationNode/pipe-elevationNode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-gridNode/pipe-gridNode.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-gridNode/pipe-gridNode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-logPressure/pipe-logPressure.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-logPressure/pipe-logPressure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-piezometer/pipe-piezometer.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-piezometer/pipe-piezometer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-pressureData/pipe-pressureData.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-pressureData/pipe-pressureData.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-rta/pipe-rta.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-rta/pipe-rta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-service.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-service/pipe-waterregion/pipe-waterregion.iml" filepath="$PROJECT_DIR$/pipe-service/pipe-waterregion/pipe-waterregion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipe-web/pipe-web.iml" filepath="$PROJECT_DIR$/pipe-web/pipe-web.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.PressureDataMapper">
+	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.PressureData">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="loc_code" property="locCode"/>
+    	<result column="loc_name" property="locName"/>
+		<result column="pressure" property="pressure"/>
+		<result column="data_time" property="dataTime"/>
+		<result column="request_time" property="requestTime"/>
+		<result column="tag" property="tag"/>
+    	<result column="remark" property="remark"/>
+	   	<result column="create_time" property="createTime"/>
+	   	<result column="update_time" property="updateTime"/>
+		<result column="deleted" property="deleted"/>
+	</resultMap>
+
+	<sql id="columns">
+		`pressure_data`.`id`,
+		`pressure_data`.`loc_code`,
+		`pressure_data`.`loc_name`,
+		`pressure_data`.`pressure`,
+		`pressure_data`.`data_time`,
+		`pressure_data`.`request_time`,
+		`pressure_data`.`tag`,
+		`pressure_data`.`remark`,
+		`pressure_data`.`create_time`,
+		`pressure_data`.`update_time`,
+		`pressure_data`.`deleted`
+	</sql>
+
+	<select id="selectPressureDataList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `pressure_data`
+		<where>
+			<if test="pressureData.id != null and pressureData.id != ''">
+				`pressure_data`.`id` = #{pressureData.id}
+			</if>
+			<if test="pressureData.locCode != null and pressureData.locCode != ''">
+				AND `pressure_data`.`loc_code` = #{pressureData.locCode}
+			</if>
+			<if test="pressureData.locName != null and pressureData.locName != ''">
+				AND LOCATE(#{locName},`pressureData`.`loc_name`)>0
+			</if>
+			<if test="startTime != null and startTime != ''">
+  				AND `pressure_data`.`data_time` &gt;= #{startTime}
+	  		</if>
+	  		<if test="endTime != null and endTime != ''">
+	  			AND `pressure_data`.`data_time` &lt; #{endTime}
+	  		</if>
+		</where>
+	</select>
+
+	<select id="selectPressureData" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `pressure_data`
+		<where>
+			<if test="id != null and id != ''">
+				`pressure_data`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertPressureData">
+		insert into `pressure_data`
+		(
+		`pressure_data`.`loc_code`,
+		`pressure_data`.`loc_name`,
+		`pressure_data`.`pressure`,
+		`pressure_data`.`data_time`,
+		`pressure_data`.`request_time`,
+		`pressure_data`.`tag`,
+		`pressure_data`.`remark`,
+		`pressure_data`.`create_time`,
+		`pressure_data`.`deleted`
+		)
+		values
+		(
+		#{locCode},
+		#{locName},
+		#{pressure},
+		#{dataTime},
+		#{requestTime},
+		#{tag},
+		#{remark},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updatePressureData">
+		update `pressure_data`
+		<set>
+			<if test="locCode != null and locCode != ''">
+				`pressure_data` = #{locCode},
+			</if>
+			<if test="locName != null and locName != ''">
+				`pressure_data` = #{locName},
+			</if>
+			<if test="pressure != null and pressure != ''">
+				`pressure_data` = #{pressure},
+			</if>
+			<if test="dataTime != null">
+				`pressure_data` = #{dataTime},
+			</if>
+			<if test="requestTime != null">
+				`pressure_data` = #{requestTime},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `pressure_data`.id = #{id}
+	</update>
+
+	<delete id="deletePressureData">
+		DELETE FROM
+		`pressure_data`
+		WHERE `pressure_data`.id = #{id}
+	</delete>
+
+	<!-- 批量插入数据list -->
+	<insert id="insertPressureDataList" parameterType="java.util.List">
+		insert IGNORE into `pressure_data`
+		(
+		`pressure_data`.`loc_code`,
+		`pressure_data`.`loc_name`,
+		`pressure_data`.`pressure`,
+		`pressure_data`.`data_time`,
+		`pressure_data`.`request_time`,
+		`pressure_data`.`tag`,
+		`pressure_data`.`remark`,
+		`pressure_data`.`create_time`,
+		`pressure_data`.`deleted`
+		)
+		values
+		<foreach collection="list" item="pressureDataList" index="index" separator=",">
+		(
+		#{pressureDataList.locCode},
+		#{pressureDataList.locName},
+		#{pressureDataList.pressure},
+		#{pressureDataList.dataTime},
+		#{pressureDataList.requestTime},
+		#{pressureDataList.tag},
+		#{pressureDataList.remark},
+		NOW(),
+		#{pressureDataList.deleted}
+  		)
+		</foreach>
+	</insert >
+	
+</mapper>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bs.pipe.mapper.WaterregionMapper" >
+  <resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.Waterregion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="snumber" property="snumber" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="DOUBLE" />
+    <result column="population" property="population" jdbcType="INTEGER" />
+    <result column="statistics_type" property="statisticsType" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+   	<result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
+   	<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+   	<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	<result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+ 
+	<sql id="columns">
+		`waterregion`.`id`,
+		`waterregion`.`name`,
+		`waterregion`.`snumber`,
+		`waterregion`.`category`,
+		`waterregion`.`address`,
+		`waterregion`.`area`,
+		`waterregion`.`population`,
+		`waterregion`.`statistics_type`,
+		`waterregion`.`tag`,
+		`waterregion`.`remark`,
+		`waterregion`.`creator`,
+		`waterregion`.`creator_id`,
+		`waterregion`.`updator`,
+		`waterregion`.`create_time`,
+		`waterregion`.`update_time`,
+		`waterregion`.`deleted`
+	</sql>
+	
+	 <select id="selectWaterregionList" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `waterregion`
+		<where>
+			<if test="id != null and id != ''">
+				`waterregion`.`id` = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				AND LOCATE(#{name},`waterregion`.`name`)>0
+			</if>
+		</where>
+	</select>
+
+	<select id="selectWaterregion" resultMap="BaseResultMap">
+		select
+		<include refid="columns"></include>
+		from `waterregion`
+		<where>
+			<if test="id != null and id != ''">
+				`waterregion`.`id` = #{id}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertWaterregion">
+		insert into `waterregion`
+		(
+		`waterregion`.`name`,
+		`waterregion`.`snumber`,
+		`waterregion`.`category`,
+		`waterregion`.`address`,
+		`waterregion`.`area`,
+		`waterregion`.`population`,
+		`waterregion`.`statistics_type`,
+		`waterregion`.`tag`,
+		`waterregion`.`remark`,
+		`waterregion`.`creator`,
+		`waterregion`.`creator_id`,
+		`waterregion`.`create_time`,
+		`waterregion`.`deleted`
+		)
+		values
+		(
+		#{name},
+		#{snumber},
+		#{category},
+		#{address},
+		#{area},
+		#{population},
+		#{statisticsType},
+		#{tag},
+		#{remark},
+		#{creator},
+		#{creatorId},
+		NOW(),
+		#{deleted}
+		)
+	</insert>
+
+	<update id="updateWaterregion">
+		update `waterregion`
+		<set>
+			<if test="name != null and name != ''">
+				`name` = #{name},
+			</if>
+			<if test="snumber != null and snumber != ''">
+				`snumber` = #{snumber},
+			</if>
+			<if test="category != null and category != ''">
+				`category` = #{category},
+			</if>
+			<if test="address != null and address != ''">
+				`address` = #{address},
+			</if>
+			<if test="area != null and area != ''">
+				`area` = #{area},
+			</if>
+			<if test="population != null and population != ''">
+				`population` = #{population},
+			</if>
+			<if test="statisticsType != null and statisticsType != ''">
+				`statistics_type` = #{statisticsType},
+			</if>
+			<if test="tag != null and tag != ''">
+				`tag` = #{tag},
+			</if>
+			<if test="remark != null and remark != ''">
+				`remark` = #{remark},
+			</if>
+			<if test="updator != null and updator != ''">
+				`updator` = #{updator},
+			</if>
+				`update_time` = NOW(),
+			<if test="deleted != null">
+				`deleted` = #{deleted},
+			</if>
+		</set>
+		WHERE `waterregion`.id = #{id}
+	</update>
+
+	<delete id="deleteWaterregion">
+		DELETE FROM
+		`waterregion`
+		WHERE `waterregion`.id = #{id}
+	</delete>
+  
+</mapper>
