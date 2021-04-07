@@ -20,6 +20,7 @@
     <modules>
         <module>pipe-common</module>
         <module>pipe-service</module>
+        <module>pipe-web</module>
     </modules>
 
     <properties>
