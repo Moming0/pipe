@@ -71,7 +71,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -86,7 +85,7 @@
 	</dependencies>
 
 	<build>
-        <!--war包名-->
+        <!--war包名,打包名称-->
         <finalName>pipe</finalName>
 		<plugins>
 			<plugin>
