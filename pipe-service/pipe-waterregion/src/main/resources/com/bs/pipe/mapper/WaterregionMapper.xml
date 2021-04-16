@@ -50,6 +50,12 @@
 			<if test="name != null and name != ''">
 				AND LOCATE(#{name},`waterregion`.`name`)>0
 			</if>
+            <if test="snumber != null and snumber != ''">
+                AND LOCATE(#{snumber},`waterregion`.`snumber`)>0
+            </if>
+            <if test="address != null and address != ''">
+                AND LOCATE(#{address},`waterregion`.`address`)>0
+            </if>
 		</where>
 	</select>
 

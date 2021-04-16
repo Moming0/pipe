@@ -84,6 +84,9 @@
 			<if test="status != null">
 				AND `piezometer`.`status` = #{status}
 			</if>
+            <if test="setAddress !=null and setAddress != ''">
+                AND LOCATE(#{setAddress},`piezometer`.`set_address`)>0
+            </if>
 		</where>
 	</select>
 
@@ -361,5 +364,74 @@
 	<select id="piezometerExistWhenUpdate" resultType="java.lang.Boolean">
 		SELECT COUNT(*) > 0 FROM `piezometer` WHERE `piezometer`.`snumber` = #{snumber} AND `piezometer`.`id` != #{id}
 	</select>
+
+    <resultMap id="pressureToLastLogResultMap" type="com.bs.pipe.dto.PiezometerDTO">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="region_id" property="regionId" jdbcType="INTEGER" />
+        <result column="snumber" property="snumber" jdbcType="VARCHAR" />
+        <result column="master_pc" property="masterPc" jdbcType="VARCHAR" />
+        <result column="category" property="category" jdbcType="VARCHAR" />
+        <result column="pipe_category" property="pipeCategory" jdbcType="VARCHAR" />
+        <result column="is_open" property="isOpen" jdbcType="BIT" />
+        <result column="is_online" property="isOnline" jdbcType="BIT" />
+        <result column="dimension" property="dimension" jdbcType="VARCHAR" />
+        <result column="set_address" property="setAddress" jdbcType="VARCHAR" />
+        <result column="set_departement" property="setDepartement" jdbcType="VARCHAR" />
+        <result column="set_date_time" property="setDateTime" jdbcType="TIMESTAMP" />
+        <result column="producter" property="producter" jdbcType="VARCHAR" />
+        <result column="product_sn" property="productSn" jdbcType="VARCHAR" />
+        <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+        <result column="latitude" property="latitude" jdbcType="DECIMAL" />
+        <result column="elevation" property="elevation" jdbcType="DECIMAL" />
+        <result column="last_read_number" property="lastReadNumber" jdbcType="DOUBLE" />
+        <result column="last_read_time" property="lastReadTime" jdbcType="TIMESTAMP" />
+        <result column="status" property="status" jdbcType="BIT" />
+        <result column="tag" property="tag" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="creator" property="creator" jdbcType="VARCHAR" />
+        <result column="creator_id" property="creatorId" jdbcType="VARCHAR" />
+        <result column="updator" property="updator" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="deleted" property="deleted" jdbcType="BIT" />
+    </resultMap>
+
+    <select id="selectPiezometerListAndLastLog" resultMap="pressureToLastLogResultMap">
+        SELECT
+        `piezometer`.*,
+        A.last_read_number,
+        A.last_read_time
+        FROM
+        (SELECT
+        pressure_id,
+        read_number last_read_number,
+        MAX(read_time) last_read_time
+        FROM
+        log_pressure
+        GROUP BY pressure_id) A
+        INNER JOIN `piezometer`
+        ON A.pressure_id = `piezometer`.`id`
+        <where>
+            <if test="id != null and id != ''">
+                `piezometer`.`id` = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                AND LOCATE(#{name},`piezometer`.`name`)>0
+            </if>
+            <if test="regionId != null and regionId != ''">
+                AND `piezometer`.`region_id` = #{regionId}
+            </if>
+            <if test="longitude != null and longitude != ''">
+                AND `piezometer`.`longitude` = #{longitude}
+            </if>
+            <if test="latitude != null and latitude != ''">
+                AND `piezometer`.`latitude` = #{latitude}
+            </if>
+            <if test="status != null">
+                AND `piezometer`.`status` = #{status}
+            </if>
+        </where>
+    </select>
 
 </mapper>

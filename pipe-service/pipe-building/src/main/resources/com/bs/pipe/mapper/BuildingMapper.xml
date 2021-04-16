@@ -73,6 +73,9 @@
 			<if test="latitude != null and latitude != ''">
 				AND `building`.`latitude` = #{latitude}
 			</if>
+            <if test="address != null and address != ''">
+                AND LOCATE(#{address},`building`.`address`)>0
+            </if>
 		</where>
 	</select>
 

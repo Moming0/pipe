@@ -3,7 +3,8 @@
 <mapper namespace="com.bs.pipe.mapper.RtaLegendStandardMapper">
 	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.RtaLegendStandard">
 		<id column="ID" property="id" jdbcType="INTEGER" />
-	    <result column="Category" property="category" jdbcType="VARCHAR" />
+        <result column="elevation" property="elevation" jdbcType="DECIMAL" />
+	    <result column="category" property="category" jdbcType="VARCHAR" />
 	    <result column="range1" property="range1" jdbcType="DOUBLE" />
 	    <result column="range2" property="range2" jdbcType="DOUBLE" />
 	    <result column="range3" property="range3" jdbcType="DOUBLE" />
@@ -31,6 +32,7 @@
 
 	<sql id="columns">
 		`rta_legend_standard`.id,
+		`rta_legend_standard`.`elevation`,
 		`rta_legend_standard`.`category`,
 		`rta_legend_standard`.`range1`,
 		`rta_legend_standard`.`range2`,
@@ -66,7 +68,7 @@
 				`rta_legend_standard`.`id` = #{id}
 			</if>
 			<if test="category != null and category != ''">
-				`rta_legend_standard`.`category` = #{category}
+				AND `rta_legend_standard`.`category` = #{category}
 			</if>
 		</where>
 	</select>
@@ -79,12 +81,16 @@
 			<if test="id != null and id != ''">
 				`rta_legend_standard`.`id` = #{id}
 			</if>
+            <if test="category != null and category != ''">
+                AND `rta_legend_standard`.`category` = #{category}
+            </if>
 		</where>
 	</select>
 
 	<insert id="insertRtaLegendStandard">
 		insert into `rta_legend_standard`
 		(
+		`rta_legend_standard`.`elevation`,
 		`rta_legend_standard`.`category`,
 		`rta_legend_standard`.`range1`,
 		`rta_legend_standard`.`range2`,
@@ -110,6 +116,7 @@
 		)
 		values
 		(
+		#{elevation},
 		#{category},
 		#{range1},
 		#{range2},
@@ -138,8 +145,11 @@
 	<update id="updateRtaLegendStandard">
 		update `rta_legend_standard`
 		<set>
+            <if test="elevation != null and elevation != ''">
+                `elevation` = #{elevation},
+            </if>
 			<if test="category != null and category != ''">
-				`Category` = #{category},
+				`category` = #{category},
 			</if>
 			<if test="range1 != null and range1 != ''">
 				`Range1` = #{range1},

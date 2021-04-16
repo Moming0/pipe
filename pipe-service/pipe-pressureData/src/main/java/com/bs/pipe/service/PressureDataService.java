@@ -40,8 +40,8 @@ public interface PressureDataService {
 	
 	/**
 	 * 批量插入数据list
-	 * @param pressureDataList
+	 * @param json
 	 */
-	Object insertPressureDataList(List<PressureData> pressureDataList);
+	Object insertPressureDataList(String json);
 	
 }

@@ -37,6 +37,8 @@
         <lombok.version>1.16.10</lombok.version>
         <swagger.version>2.9.2</swagger.version>
         <gson.version>2.8.5</gson.version>
+        <fastjson.version>1.2.46</fastjson.version>
+        <slf4j.version>1.6.4</slf4j.version>
     </properties>
 
     <dependencies>
@@ -54,6 +56,18 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.1.7</version>
+        </dependency>
+        <!-- FastJson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <!-- 日志处理 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <!-- 配置gson -->
         <dependency>

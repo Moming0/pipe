@@ -4,6 +4,7 @@
 	<resultMap id="BaseResultMap" type="com.bs.pipe.entity.po.GridNode">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="region_id" property="regionId" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
 		<result column="longitude" property="longitude" jdbcType="DECIMAL" />
 		<result column="latitude" property="latitude" jdbcType="DECIMAL" />
 		<result column="elevation" property="elevation" jdbcType="DECIMAL" />
@@ -21,6 +22,7 @@
 	<sql id="columns">
 		`grid_node`.`id`,
 		`grid_node`.`region_id`,
+		`grid_node`.`address`,
 		`grid_node`.`longitude`,
 		`grid_node`.`latitude`,
 		`grid_node`.`elevation`,
@@ -52,6 +54,9 @@
 			<if test="latitude != null and latitude != ''">
 				AND `grid_node`.`latitude` = #{latitude}
 			</if>
+            <if test="address != null and address != ''">
+                AND LOCATE(#{address},`grid_node`.`address`)>0
+            </if>
 		</where>
 	</select>
 
@@ -70,6 +75,7 @@
 		insert into `grid_node`
 		(
 		`grid_node`.`region_id`,
+		`grid_node`.`address`,
 		`grid_node`.`longitude`,
 		`grid_node`.`latitude`,
 		`grid_node`.`elevation`,
@@ -84,6 +90,7 @@
 		values
 		(
 		#{regionId},
+		#{address},
 		#{longitude},
 		#{latitude},
 		#{elevation},
@@ -103,6 +110,9 @@
 			<if test="regionId != null and regionId != ''">
 				`region_id` = #{regionId},
 			</if>
+            <if test="address != null and address != ''">
+                `address` = #{address},
+            </if>
 			<if test="longitude != null and longitude != ''">
 				`longitude` = #{longitude},
 			</if>
@@ -151,6 +161,7 @@
 		insert IGNORE into `grid_node`
 		(
 		`grid_node`.`region_id`,
+		`grid_node`.`address`,
 		`grid_node`.`longitude`,
 		`grid_node`.`latitude`,
 		`grid_node`.`elevation`,
@@ -167,6 +178,7 @@
 		<foreach collection="list" item="gridNodeList" index="index" separator=",">
 		(
 		#{gridNodeList.regionId},
+		#{gridNodeList.address},
 		#{gridNodeList.longitude},
 		#{gridNodeList.latitude},
 		#{gridNodeList.elevation},

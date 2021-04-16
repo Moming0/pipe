@@ -79,16 +79,16 @@ public class BuildingController {
 		DPage<Building> dpage = new DPage<Building>(list, pageNum, pageSize);
 		return ResObject.ok(dpage);
 	}
-	
-	/**
-	 * 获取建筑高程相对一层/顶层压力值记录（分页，ID，名称模糊，区域，经纬度，时间范围，时间单位0:小时，1:日，建筑类型：0底层1顶层）
-	 * @param building	
-	 * @param startTime	开始时间
-	 * @param endTime	结束时间
-	 * @param type	单位类型：0小时，1日
-	 * @param buildingCateory	建筑类型：0底层，1顶层
-	 * @return
-	 */
+
+    /**
+     * 获取建筑高程相对一层/顶层压力值记录（分页，ID，名称模糊，区域，经纬度，时间范围，时间单位-1:原始数据，0:小时，1:日，建筑类型：0底层1顶层）
+     * @param building
+     * @param startTime	开始时间
+     * @param endTime	结束时间
+     * @param type	单位类型：-1:原始数据，0:小时，1:日
+     * @param buildingCateory	建筑类型：0底层，1顶层
+     * @return
+     */
     @GetMapping("/pressure")
 	public ResObject selectBuildinAndPressure(
 			@RequestParam(value = "pageNum", defaultValue = "1", required = true) Integer pageNum,
@@ -100,6 +100,18 @@ public class BuildingController {
 		return ResObject.ok(dpage);
 	}
 
+    /**
+     * 获取每个区域最高建筑楼顶相对压力值记录（时间范围，时间单位-1:原始数据，0:小时，1:日）
+     * @param startTime	开始时间
+     * @param endTime	结束时间
+     * @param type	单位类型：-1:原始数据，0:小时，1:日
+     * @return
+     */
+    @GetMapping("/highest/pressure")
+    public ResObject selectHighestBuildingAndPressureByRegion(String startTime, String endTime, String type) {
+        List<BuildingVO> list = buildingService.selectHighestBuildingAndPressureByRegion(null, startTime, endTime, type);
+        return ResObject.ok(list);
+    }
 
 	/**
 	 * 查询建筑一层/顶层的压力标准上下限范围信息（ID，名称模糊，区域，经纬度，建筑类型：0底层1顶层）
@@ -112,5 +124,15 @@ public class BuildingController {
 		List list = buildingService.selectBuildingPressureScale(building, buildingCateory);
 		return ResObject.ok(list);
 	}
-	
+
+    /**
+     * 计算建筑高程信息自动录入(可设置单个建筑id)
+     * @param building(建筑id)
+     * @return
+     */
+    @GetMapping("/setBuildingElevation")
+    public ResObject setBuildingElevation(Building building) {
+        buildingService.setBuildingElevation(building);
+        return ResObject.ok();
+    }
 }

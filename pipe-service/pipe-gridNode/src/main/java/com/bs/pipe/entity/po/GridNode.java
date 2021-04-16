@@ -12,6 +12,8 @@ public class GridNode extends Base{
     private Integer id;
 	@ApiModelProperty("区域id")
     private Integer regionId;
+    @ApiModelProperty("地址")
+	private String address;
 	@ApiModelProperty("经度")
     private Double longitude;
 	@ApiModelProperty("纬度")

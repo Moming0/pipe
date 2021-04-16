@@ -3,12 +3,16 @@ package com.bs.pipe.entity.po;
 import java.util.Date;
 
 import com.bs.pipe.base.Base;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AlarmPressure extends Base{
 	
     private String id;

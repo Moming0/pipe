@@ -4,11 +4,10 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.bs.pipe.entity.po.LogPressure;
-import com.bs.pipe.entity.po.Piezometer;
-import com.bs.pipe.entity.po.RtaAlarmStandard;
-import com.bs.pipe.entity.po.Waterregion;
+import com.bs.pipe.dto.PiezometerDTO;
+import com.bs.pipe.entity.po.*;
 import com.bs.pipe.entity.vo.PiezometerVO;
+import com.bs.pipe.enums.StatisticsUnit;
 import com.bs.pipe.exception.BusinessException;
 import com.bs.pipe.mapper.PiezometerMapper;
 import com.bs.pipe.service.*;
@@ -51,6 +50,21 @@ public class PiezometerServiceImpl implements PiezometerService {
 		}
 		return CollectionUtils.isEmpty(list) ? Collections.emptyList() : list;
 	}
+
+    @Override
+    public List<PiezometerDTO> selectPiezometerListAndLastLog(Piezometer piezometer) {
+        // TODO Auto-generated method stub
+        List<PiezometerDTO> list = piezometerMapper.selectPiezometerListAndLastLog(piezometer);
+        List<Waterregion> waterregionList = waterregionService.selectWaterregionList(null);
+        for (PiezometerDTO pizeo : list) {
+            for (Waterregion waterregion : waterregionList) {
+                if(pizeo.getRegionId().equals(waterregion.getId())){
+                    pizeo.setRegionName(waterregion.getName());
+                }
+            }
+        }
+        return CollectionUtils.isEmpty(list) ? Collections.emptyList() : list;
+    }
 
 	@Override
 	public Piezometer selectPiezometer(Piezometer piezometer) {
@@ -146,7 +160,7 @@ public class PiezometerServiceImpl implements PiezometerService {
 		}
 		*/
 		LogPressure logPressure = new LogPressure();
-		if(piezometer.getId() != null){
+		if(piezometer != null && piezometer.getId() != null){
 			logPressure.setPressureId(piezometer.getId());
 		}
 		List<LogPressure> logPressureList = logPressureService.selectLogPressureList(logPressure, startTime, endTime);
@@ -166,29 +180,32 @@ public class PiezometerServiceImpl implements PiezometerService {
 	public List<PiezometerVO> selectPressureLogAvgSearch(Piezometer piezometer, String startTime, String endTime,
 			String type) {
 		// TODO Auto-generated method stub
-		if((StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)) || (!isDateTime(startTime) || !isDateTime(endTime))){
-			throw new BusinessException("请正确选择时间");
-		}
-		List<PiezometerVO> piezometerVOList = this.selectPressureLogSearch(piezometer, startTime, endTime);
-		if(CollectionUtils.isEmpty(piezometerVOList)){
-			return piezometerVOList;
-		}
-		for (PiezometerVO piezometerVO : piezometerVOList) {
-			List<LogPressure> logPressureList = piezometerVO.getLogPressure();
-			if(CollectionUtils.isNotEmpty(logPressureList)){
-				List<LogPressure> logAvglist = new ArrayList<LogPressure>();
-				//按照时间分组，每小时/每天为一组
-				LinkedHashMap<String, List<LogPressure>> logGroup = (LinkedHashMap<String, List<LogPressure>>) logPressureList.stream().collect(Collectors
-						.groupingBy(logPressure -> DateHelper.format(logPressure.getReadTime(), StringUtils.equals(type, "0") ? "yyyy-MM-dd HH" : "yyyy-MM-dd"), LinkedHashMap::new, Collectors.toList()));
-				logGroup.forEach((k, v) -> {
-					logAvglist.add(new LogPressure(v.get(0).getId(), v.get(0).getPressureId(),
-							DateHelper.parseDateIgnoreError(k),
-							v.stream().mapToDouble(LogPressure::getReadNumber).average().getAsDouble(), null, null, null,null,null,null));
-				});
-				piezometerVO.setLogPressure(logAvglist);
-			}
-		}
-		return piezometerVOList;
+        if((StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)) || (!isDateTime(startTime) || !isDateTime(endTime))){
+            throw new BusinessException("请正确选择时间");
+        }
+        List<PiezometerVO> piezometerVOList = this.selectPressureLogSearch(piezometer, startTime, endTime);
+        if(CollectionUtils.isEmpty(piezometerVOList)){
+            return piezometerVOList;
+        }
+        if(StringUtils.isEmpty(type) || type.equals(StatisticsUnit.INITIAL_UNIT.getCode())){
+            return piezometerVOList;
+        }
+        for (PiezometerVO piezometerVO : piezometerVOList) {
+            List<LogPressure> logPressureList = piezometerVO.getLogPressure();
+            if(CollectionUtils.isNotEmpty(logPressureList)){
+                List<LogPressure> logAvglist = new ArrayList<LogPressure>();
+                //按照时间分组，每小时/每天为一组
+                LinkedHashMap<String, List<LogPressure>> logGroup = (LinkedHashMap<String, List<LogPressure>>) logPressureList.stream().collect(Collectors
+                        .groupingBy(logPressure -> DateHelper.format(logPressure.getReadTime(), StringUtils.equals(type, StatisticsUnit.HOUR_UNIT.getCode()) ? "yyyy-MM-dd HH" : "yyyy-MM-dd"), LinkedHashMap::new, Collectors.toList()));
+                logGroup.forEach((k, v) -> {
+                    logAvglist.add(new LogPressure(v.get(0).getId(), v.get(0).getPressureId(),
+                            DateHelper.parseDateIgnoreError(k),
+                            v.stream().mapToDouble(LogPressure::getReadNumber).average().getAsDouble(), null, null, null,null,null,null));
+                });
+                piezometerVO.setLogPressure(logAvglist);
+            }
+        }
+        return piezometerVOList;
 	}
 	
 	@Override
@@ -204,10 +221,10 @@ public class PiezometerServiceImpl implements PiezometerService {
 			List<LinkedHashMap<String,Object>> pressureScale = new ArrayList<LinkedHashMap<String,Object>>();
 			for (RtaAlarmStandard alarmStandard : alarmStandardList) {
 				if(alarmStandard.getRegionId().equals(p.getRegionId())){
-					//根据高程差计算压力 1m = 0.01MPa
-					Double logDif = ArithmeticUtil.mul(ArithmeticUtil.sub(alarmStandard.getElevation(), p.getElevation()), 0.01);
-					Double minScale = ArithmeticUtil.add(alarmStandard.getMinScale(), logDif > 0 ? logDif : logDif < 0 ? logDif * -1 : 0);
-					Double maxScale = ArithmeticUtil.add(alarmStandard.getMaxScale(), logDif > 0 ? logDif : logDif < 0 ? logDif * -1 : 0);
+					//根据高程差计算压力 1m = 0.01MPa(每升高1m降低0.01兆帕)（单位为1MPa * 10）
+					Double logDif = ArithmeticUtil.mul(ArithmeticUtil.sub(p.getElevation(), alarmStandard.getElevation()), 0.1);
+					Double minScale = ArithmeticUtil.add(alarmStandard.getMinScale(), (logDif > 0 ? logDif * -1 : logDif < 0 ? logDif * -1 : 0));
+					Double maxScale = ArithmeticUtil.add(alarmStandard.getMaxScale(), (logDif > 0 ? logDif * -1 : logDif < 0 ? logDif * -1 : 0));
 					LinkedHashMap<String,Object> mapScale = new LinkedHashMap<>();
 					mapScale.put("time", alarmStandard.getCategory());
 					mapScale.put("minScale", minScale);

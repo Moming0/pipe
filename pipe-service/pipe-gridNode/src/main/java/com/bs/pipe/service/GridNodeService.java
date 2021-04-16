@@ -8,7 +8,7 @@ import java.util.List;
 public interface GridNodeService {
 	
 	/**
-	 * 获得GridNode（网格点）多记录（ID，区域，经纬度）
+	 * 获得GridNode（网格点）多记录（ID，区域，经纬度，地址）
 	 * @param gridNode
 	 * @return
 	 */
@@ -51,14 +51,14 @@ public interface GridNodeService {
 	 * @return
 	 */
 	List<GridNode> selectGridNodeElevation(GridNode gridNode);
-	
-	/**
-	 * 获取网格点高程相对压力值记录
-	 * @param gridNode	
-	 * @param startTime	开始时间
-	 * @param endTime	结束时间
-	 * @param type	单位类型：0小时，1日
-	 * @return
-	 */
+
+    /**
+     * 获取网格点高程相对压力值记录
+     * @param gridNode
+     * @param startTime	开始时间
+     * @param endTime	结束时间
+     * @param type	单位类型：-1:原始数据，0:小时，1:日
+     * @return
+     */
 	List<GridNodeVO> selectGridNodePressure(GridNode gridNode, String startTime, String endTime, String type);
 }

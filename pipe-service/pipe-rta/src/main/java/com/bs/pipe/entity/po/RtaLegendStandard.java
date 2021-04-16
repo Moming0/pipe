@@ -9,6 +9,8 @@ import java.util.Date;
 public class RtaLegendStandard extends Base{
 
     private Integer id;
+
+    private Double elevation;
     
     private String category;
 

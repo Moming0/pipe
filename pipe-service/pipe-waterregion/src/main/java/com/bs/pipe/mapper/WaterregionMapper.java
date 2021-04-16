@@ -7,7 +7,7 @@ import java.util.List;
 public interface WaterregionMapper {
 
 	/**
-	 * ID，名字模糊
+	 * ID，名字模糊,编号模糊,地址模糊
 	 * @param waterregion
 	 * @return
 	 */

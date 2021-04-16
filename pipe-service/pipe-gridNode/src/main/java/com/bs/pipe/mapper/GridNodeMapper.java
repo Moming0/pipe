@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GridNodeMapper {
 	/**
-	 * ID，区域ID，经纬度
+	 * ID，区域ID，经纬度，地址
 	 * @param gridNode
 	 * @return
 	 */

@@ -2,13 +2,14 @@ package com.bs.pipe.mapper;
 
 import java.util.List;
 
+import com.bs.pipe.dto.PiezometerDTO;
 import com.bs.pipe.entity.po.Piezometer;
 import com.bs.pipe.entity.vo.PiezometerVO;
 import org.apache.ibatis.annotations.Param;
 
 public interface PiezometerMapper {
 	/**
-	 * ID，名称模糊，区域，经纬度
+	 * ID，名称模糊，区域，经纬度，地址
 	 * @param piezometer
 	 * @return
 	 */
@@ -49,5 +50,12 @@ public interface PiezometerMapper {
 	boolean piezometerExistWhenCreate(Piezometer piezometer);
 	
 	boolean piezometerExistWhenUpdate(Piezometer piezometer);
-	
+
+    /**
+     * 查询压力监测点信息和最后一次压力及时间(ID，名称模糊，区域，经纬度)
+     * @param piezometer	ID，名称模糊，区域，经纬度
+     * @return
+     */
+    List<PiezometerDTO> selectPiezometerListAndLastLog(Piezometer piezometer);
+
 }

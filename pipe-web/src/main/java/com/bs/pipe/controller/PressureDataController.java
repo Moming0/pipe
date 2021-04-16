@@ -70,8 +70,7 @@ public class PressureDataController {
 	@PostMapping("/input/pressureditydata")
 	@ResponseBody
 	public Object insertPressureDataList(@RequestBody String json) {
-		List<PressureData> pressureDataList = JsonUtil.jsonToList(json, PressureData.class);
-		return pressureDataService.insertPressureDataList(pressureDataList);
+		return pressureDataService.insertPressureDataList(json);
 	}
 
 }

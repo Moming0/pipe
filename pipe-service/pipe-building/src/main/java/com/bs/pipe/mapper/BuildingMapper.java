@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BuildingMapper {
 	/**
-	 * ID，名字模糊，区域ID，经纬度
+	 * ID，名字模糊，区域ID，经纬度，地址
 	 * @param building
 	 * @return
 	 */

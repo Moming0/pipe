@@ -12,5 +12,18 @@
 
     <artifactId>pipe-alarm</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.bs</groupId>
+            <artifactId>pipe-piezometer</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.bs</groupId>
+            <artifactId>pipe-building</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

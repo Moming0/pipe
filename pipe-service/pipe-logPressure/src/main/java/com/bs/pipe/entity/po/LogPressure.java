@@ -30,7 +30,7 @@ public class LogPressure implements Serializable {
     @ApiModelProperty("标签")
     private String tag;
     @ApiModelProperty("备注")
-    private String remark;
+    private Object remark;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;

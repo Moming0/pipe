@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 public class PiezometerVO extends Piezometer {
-	
+
 	private List<LogPressure> logPressure;
 
 }
