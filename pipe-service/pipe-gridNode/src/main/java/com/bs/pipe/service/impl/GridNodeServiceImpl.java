@@ -1,14 +1,18 @@
 package com.bs.pipe.service.impl;
 
 import java.util.*;
+import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.bs.pipe.entity.po.*;
 import com.bs.pipe.entity.vo.GridNodeVO;
 import com.bs.pipe.entity.vo.PiezometerVO;
+import com.bs.pipe.enums.Category;
+import com.bs.pipe.enums.PizometerCategory;
 import com.bs.pipe.exception.BusinessException;
 import com.bs.pipe.mapper.GridNodeMapper;
+import com.bs.pipe.reckon.ReckonThreadGridNode;
 import com.bs.pipe.service.ElevationNodeService;
 import com.bs.pipe.service.GridNodeService;
 import com.bs.pipe.service.PiezometerService;
@@ -32,6 +36,8 @@ public class GridNodeServiceImpl implements GridNodeService {
 	private ElevationNodeService elevationNodeService;
 	@Resource
 	private PiezometerService piezometerService;
+	@Resource
+    private ReckonThreadGridNode reckonThreadGridNode;
 
     @Override
     public List<GridNode> selectGridNodeList(GridNode gridNode) {
@@ -120,6 +126,8 @@ public class GridNodeServiceImpl implements GridNodeService {
     @Override
     public List<GridNodeVO> selectGridNodePressure(GridNode gridNode, String startTime, String endTime, String type) {
         // TODO Auto-generated method stub
+        long kaishi = System.currentTimeMillis();
+        System.out.println("开始时间：" + kaishi);
         if((StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)) || (!isDateTime(startTime) || !isDateTime(endTime))){
             throw new BusinessException("请正确选择时间");
         }
@@ -129,6 +137,7 @@ public class GridNodeServiceImpl implements GridNodeService {
             return Collections.emptyList();
         } else {
             Piezometer piezometer = new Piezometer();
+            piezometer.setPipeCategory(PizometerCategory.NORMAL_PIPE.getCode());
             if(gridNode != null && gridNode.getRegionId() != null){
                 piezometer.setRegionId(gridNode.getRegionId());
             }
@@ -172,15 +181,20 @@ public class GridNodeServiceImpl implements GridNodeService {
                         gNode.setLogPressure(logPressureCopy);
                     }
                 }
+                System.out.println("用时：" + (System.currentTimeMillis() - kaishi));
                 return gridNodeVOList;
             }
         }
     }
+
+
 /*
 
     @Override
     public List<GridNodeVO> selectGridNodePressure(GridNode gridNode, String startTime, String endTime, String type) {
         // TODO Auto-generated method stub
+        long kaishi = System.currentTimeMillis();
+        System.out.println("开始时间：" + kaishi);
         if((StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)) || (!isDateTime(startTime) || !isDateTime(endTime))){
             throw new BusinessException("请正确选择时间");
         }
@@ -190,7 +204,8 @@ public class GridNodeServiceImpl implements GridNodeService {
             return Collections.emptyList();
         } else {
             Piezometer piezometer = new Piezometer();
-            if(gridNode.getRegionId() != null){
+            piezometer.setPipeCategory(PizometerCategory.NORMAL_PIPE.getCode());
+            if(gridNode != null && gridNode.getRegionId() != null){
                 piezometer.setRegionId(gridNode.getRegionId());
             }
             //压力监测点压力值
@@ -200,24 +215,21 @@ public class GridNodeServiceImpl implements GridNodeService {
                 List<GridNodeVO> gridNodeVOList = gridNodeList.stream().map(a -> builderGridNodeVO(a)).collect(Collectors.toList());
                 return gridNodeVOList;
             } else {
-                RtaLegendStandard rtaLegendStandard = new RtaLegendStandard();
-                rtaLegendStandard.setCategory(Category.GRIDNODE.getCode());
-                RtaLegendStandard standard = rtaLegendStandardService.selectRtaLegendStandard(rtaLegendStandard);
-
+                //接收集合各段的 执行的返回结果
+                List <Future<List<GridNodeVO>>> futureList = new ArrayList <Future <List<GridNodeVO>>>();
                 List<GridNodeVO> gridNodeVOList = new ArrayList<>();
                 //监测点按照区域分类
                 Map<Integer, List<GridNodeVO>> groupByGridNode = gridNodeList.stream().map(a -> builderGridNodeVO(a)).collect(Collectors.groupingBy(GridNodeVO::getRegionId));
                 //网格点按照区域分类
-                Map<Integer, List<PiezometerVO>> groupByPiezometer = piezometerList.stream().collect(Collectors.groupingBy(PiezometerVO::getRegionId));
+                //Map<Integer, List<PiezometerVO>> groupByPiezometer = piezometerList.stream().collect(Collectors.groupingBy(PiezometerVO::getRegionId));
                 //同步分区计算推算网格点压力值
                 for (Map.Entry<Integer, List<GridNodeVO>> entryG : groupByGridNode.entrySet()) {
-                    for (Map.Entry<Integer, List<PiezometerVO>> entryP : groupByPiezometer.entrySet()) {
-                        if(entryG.getKey() == entryP.getKey()){
-                            List<GridNodeVO> list = reckonThreadGridNode.runThreadGridNodeLogPressure(entryG.getValue(), entryP.getValue(),standard);
-                            gridNodeVOList.addAll(list);
-                        }
-                    }
+                    //List<GridNodeVO> list = reckonThreadGridNode.runThreadGridNodeLogPressure(entryG.getValue(), entryP.getValue());
+                    //每段数据集合并行
+                    futureList.add(reckonThreadGridNode.runThreadGridNodeLogPressure(entryG.getValue(), piezometerList));
+                    gridNodeVOList.addAll(entryG.getValue());
                 }
+                System.out.println("用时：" + (System.currentTimeMillis() - kaishi));
                 return gridNodeVOList;
             }
         }
