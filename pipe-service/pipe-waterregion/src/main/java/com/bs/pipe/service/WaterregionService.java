@@ -37,4 +37,5 @@ public interface WaterregionService {
 	 * @param id
 	 */
 	void deleteWaterregion(Integer id);
+
 }

@@ -91,7 +91,7 @@ public class AlarmPressureServiceImpl implements AlarmPressureService {
 		 * 
 		 * 首字母 + 三位数设施(设备)ID + 时间yyyyMMdd + 三位数的累计自然数(001~999)
 		 * 
-		 * 首字母<一/二位>：10:压力点,20:建筑一层,30:和建筑顶层
+		 * 首字母<一/二位>：10:压力点,20:建筑一层,30:建筑顶层,40:区域,50:网格点
 		 * 三位数设施(设备)ID<三位>：不够三位数的前面用0填充
 		 * 时间<八位>：格式yyyyMMdd
 		 * 三位自然数<三位>：三位数的累计自然数(001~999)，不够三位数的前面用0填充
@@ -108,6 +108,12 @@ public class AlarmPressureServiceImpl implements AlarmPressureService {
 			case "30":
 				alarmCode = "T";	//Building建筑顶层
 				break;
+            case "40":
+                alarmCode = "R";	//Region区域
+                break;
+            case "50":
+                alarmCode = "G";	//GridNode网格点
+                break;
 		}
 		
 		if (id < 10 && id > 0) {

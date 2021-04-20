@@ -1,7 +1,9 @@
 package com.bs.pipe.service;
 
 import com.bs.pipe.entity.po.Building;
+import com.bs.pipe.entity.po.Waterregion;
 import com.bs.pipe.entity.vo.BuildingVO;
+import com.bs.pipe.entity.vo.WaterregionVO;
 
 import java.util.List;
 
@@ -81,5 +83,15 @@ public interface BuildingService {
      * @param building(建筑id)
      */
     void setBuildingElevation(Building building);
+
+    /**
+     * 获取每个区域最高建筑相对压力值(代表区域压力)记录
+     * @param waterregion
+     * @param startTime	开始时间
+     * @param endTime	结束时间
+     * @param type	单位类型：-1:原始数据，0:小时，1:日
+     * @return
+     */
+    List<WaterregionVO> selectWaterregionAndPressure(Waterregion waterregion, String startTime, String endTime, String type);
 
 }

@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import com.bs.pipe.entity.po.*;
 import com.bs.pipe.entity.vo.BuildingVO;
 import com.bs.pipe.entity.vo.PiezometerVO;
+import com.bs.pipe.entity.vo.WaterregionVO;
 import com.bs.pipe.enums.BuildingCategory;
+import com.bs.pipe.enums.PizometerCategory;
 import com.bs.pipe.exception.BusinessException;
 import com.bs.pipe.mapper.BuildingMapper;
 import com.bs.pipe.service.*;
@@ -125,6 +127,7 @@ public class BuildingServiceImpl implements BuildingService {
             return Collections.emptyList();
         } else {
             Piezometer piezometer = new Piezometer();
+            piezometer.setPipeCategory(PizometerCategory.NORMAL_PIPE.getCode());
             if(building != null && building.getRegionId() != null){
                 piezometer.setRegionId(building.getRegionId());
             }
@@ -225,6 +228,44 @@ public class BuildingServiceImpl implements BuildingService {
             updataBuilding.setElevation(b.getElevation());
             this.updateBuilding(updataBuilding);
         }
+    }
+
+    @Override
+    public List<WaterregionVO> selectWaterregionAndPressure(Waterregion waterregion, String startTime, String endTime, String type) {
+        if((StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)) || (!isDateTime(startTime) || !isDateTime(endTime))){
+            throw new BusinessException("请正确选择时间");
+        }
+        List<Waterregion> waterregionList = waterregionService.selectWaterregionList(waterregion);
+        if(CollectionUtils.isEmpty(waterregionList)){
+            return Collections.emptyList();
+        } else {
+            List<BuildingVO> buildingVO = this.selectBuildingAndPressure(new Building(), startTime, endTime, type, BuildingCategory.BUILDING_TOP.getCode());
+            List<WaterregionVO> waterregionVOList = waterregionList.stream().map(a -> this.builderWaterregionVO(a)).collect(Collectors.toList());
+            if(CollectionUtils.isEmpty(buildingVO)){
+                return waterregionVOList;
+            } else {
+                Map<Integer, List<BuildingVO>> collect = buildingVO.stream().collect(Collectors.groupingBy(BuildingVO::getRegionId));
+                for (WaterregionVO waterregionVO : waterregionVOList) {
+                    collect.forEach((k,v) ->{
+                        if(k.equals(waterregionVO.getId())){
+                            waterregionVO.setLogPressure(v.stream().max(Comparator.comparingDouble(a -> a.getElevation() + a.getBuildingHeight())).get().getLogPressure());
+                        }
+                    });
+                }
+                return waterregionVOList;
+            }
+        }
+    }
+
+    private WaterregionVO builderWaterregionVO(Waterregion waterregion){
+        if (waterregion == null) {
+            return null;
+        } else {
+            WaterregionVO waterregionVO = new WaterregionVO();
+            BeanUtils.copyProperties(waterregion,waterregionVO);
+            return waterregionVO;
+        }
+
     }
 
     private BuildingVO builderBuildingVO(Building building) {

@@ -72,6 +72,9 @@
 			<if test="name != null and name != ''">
 				AND LOCATE(#{name},`piezometer`.`name`)>0
 			</if>
+            <if test="pipeCategory != null and pipeCategory != ''">
+                AND LOCATE(#{pipeCategory},`piezometer`.`pipe_category`)>0
+            </if>
 			<if test="regionId != null and regionId != ''">
 				AND `piezometer`.`region_id` = #{regionId}
 			</if>
@@ -338,6 +341,9 @@
 		 	<if test="piezometer.name != null and piezometer.name != ''">
 				AND LOCATE(#{piezometer.name},`piezometer`.`name`)>0
 			</if>
+            <if test="piezometer.pipeCategory != null and piezometer.pipeCategory != ''">
+                AND LOCATE(#{piezometer.pipeCategory},`piezometer`.`pipe_category`)>0
+            </if>
 			<if test="piezometer.regionId != null and piezometer.regionId != ''">
 				AND `piezometer`.`region_id` = #{piezometer.regionId}
 			</if>

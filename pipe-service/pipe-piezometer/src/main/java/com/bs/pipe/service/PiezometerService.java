@@ -9,7 +9,7 @@ import java.util.List;
 public interface PiezometerService {
 	
 	/**
-	 * 获得Piezometer（压力点）信息（ID，名称模糊，区域，经纬度，地址）
+	 * 获得Piezometer（压力点）信息（ID，名称模糊，区域，经纬度，地址，管网类型）
 	 * @param piezometer
 	 * @return
 	 */
@@ -62,7 +62,7 @@ public interface PiezometerService {
 	void deletePiezometer(Integer id);
 	
 	/**
-	 * 查询压力点信息及历史压力值（ID，名称模糊，区域，经纬度，时间范围）
+	 * 查询压力点信息及历史压力值（ID，名称模糊，区域，经纬度，时间范围，地址，管网类型）
 	 * @param piezometer
 	 * @param startTime
 	 * @param endTime
@@ -71,7 +71,7 @@ public interface PiezometerService {
 	List<PiezometerVO> selectPressureLogSearch(Piezometer piezometer, String startTime, String endTime);
 	
 	/**
-	 * 查询压力点信息及历史压力值平均值（ID，名称模糊，区域，经纬度，时间范围，时间单位-1:原始数据，0:小时，1:日）
+	 * 查询压力点信息及历史压力值平均值（ID，名称模糊，区域，地址，管网类型，经纬度，时间范围，时间单位-1:原始数据，0:小时，1:日）
 	 * 		自定义时间
 	 * 			单位日：每天数据,每天内四个节点小时的平均值，即为当天数据
 	 * 			单位小时：每小时数据，每小时内几个数据的平均值，即为该小时数据

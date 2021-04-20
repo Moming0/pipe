@@ -12,5 +12,11 @@
 
     <artifactId>pipe-waterregion</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.bs</groupId>
+            <artifactId>pipe-logPressure</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

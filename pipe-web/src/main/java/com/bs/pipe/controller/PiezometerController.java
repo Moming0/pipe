@@ -19,7 +19,7 @@ public class PiezometerController {
 	private PiezometerService piezometerService;
 
 	/**
-	 * 所有压力点信息（ID，名称模糊，区域，经纬度）
+	 * 所有压力点信息（ID，名称模糊，区域，经纬度，地址，管网类型）
 	 * @param piezometer
 	 * @return
 	 */
@@ -64,7 +64,7 @@ public class PiezometerController {
 	}
 	
     /**
-     * 查询压力点信息及历史压力值（分页，ID，名称模糊，区域，经纬度，时间范围）
+     * 查询压力点信息及历史压力值（分页，ID，名称模糊，区域，经纬度，时间范围，地址，管网类型）
      * @param pageNum   当前页
      * @param pageSize  当前页大小
      * @param piezometer    (ID，名称模糊，区域，经纬度，时间范围)
@@ -83,7 +83,7 @@ public class PiezometerController {
 	}
 	
     /**
-     * 查询压力点信息及历史压力值平均值（分页，ID，名称模糊，区域，经纬度，时间范围，时间单位0:小时，1:日）
+     * 查询压力点信息及历史压力值平均值（分页，ID，名称模糊，区域，地址，管网类型，经纬度，时间范围，时间单位0:小时，1:日）
      * @param pageNum   当前页
      * @param pageSize  当前页大小
      * @param piezometer（ID，名称模糊，区域，经纬度，时间范围）
